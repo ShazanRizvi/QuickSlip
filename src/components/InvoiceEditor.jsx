@@ -10,7 +10,18 @@ import { Separator } from "./ui/separator";
 import { RxCross2 } from "react-icons/rx";
 import { TbEyeDotted } from "react-icons/tb";
 import { HiMiniPlus } from "react-icons/hi2";
-const InvoiceEditor = ({ onUpdate }) => {
+
+const InvoiceEditor = ({onUpdate}) => {
+  const locale = 'en-US'; 
+  const options = {  weekday: "short",
+  year: "numeric",
+  month: "short",
+  day: "numeric", };
+
+  // Create date strings for today and a date 30 days from today
+  const today = new Date();
+  const thirtyDaysLater = new Date(today.getTime() + (30 * 24 * 60 * 60 * 1000));
+  
   
   const calculateLineAmount = (rate, quantity) =>
     parseFloat(rate) * parseInt(quantity, 10);
@@ -24,14 +35,15 @@ const InvoiceEditor = ({ onUpdate }) => {
     const total = subtotal + tax - discount;
     return { subtotal, tax, total };
   };
+  
   return (
     <Formik
       initialValues={{
         invoiceNumber: "",
         companyAddress: "",
         billTo: "",
-        dateIssued: new Date(),
-        dueDate: new Date(),
+        dateIssued: today.toLocaleDateString(locale, options),
+        dueDate: thirtyDaysLater.toLocaleDateString(locale, options),
         items: [{ item: "", rate: 0, quantity: 0, amount: 0 }],
         subtotal: 0,
         taxRate: 5, // 5% tax rate for example
@@ -39,14 +51,14 @@ const InvoiceEditor = ({ onUpdate }) => {
         total: 0,
       }}
       onSubmit={(values) => {
-        console.log("Submitting form", values);
+         console.log("Submitting form", values);
       }}
       onChange={(values) => {
         onUpdate(values);
       }}
     >
       {({ values, setFieldValue, handleChange }) => (
-        <Form>
+        <Form className="p-2">
           <div className="w-full flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold dark:text-white">Invoice Editor</h1>
             <Button

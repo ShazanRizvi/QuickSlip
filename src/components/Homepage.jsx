@@ -1,19 +1,30 @@
-import React from 'react'
-import InvoicePreview from './InvoicePreview'
-import InvoiceEditor from './InvoiceEditor'
+import React, { useState } from "react";
+import InvoicePreview from "./InvoicePreview";
+import InvoiceEditor from "./InvoiceEditor";
 
 const Homepage = () => {
+  const [previewData, setPreviewData] = useState(null);
+  const handleUpdate = (data) => {
+    setPreviewData(data);
+  };
   return (
-    <div className='flex gap-4 justify-center mx-6'>
-    <div className=' w-1/2 '>
-    <InvoicePreview />
+    <div className="flex gap-4 justify-center mx-6">
+      <div className="w-1/2 overflow-y-auto h-screen">
+        {!previewData ? (
+          <div className="flex h-screen items-center justify-center">
+            <h1 className="text-md font-semibold text-slate-500">
+              Fill in details to live preview your invoice here!
+            </h1>
+          </div>
+        ) : (
+          <InvoicePreview previewData = {previewData}/>
+        )}
+      </div>
+      <div className="w-1/2 overflow-y-auto h-screen">
+        <InvoiceEditor onUpdate={handleUpdate} />
+      </div>
     </div>
-    <div className=' w-1/2 '>
-      <InvoiceEditor/>
-    </div>
-     
-    </div>
-  )
-}
+  );
+};
 
-export default Homepage
+export default Homepage;
