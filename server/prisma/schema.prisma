@@ -11,6 +11,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model invoice{
@@ -18,9 +19,10 @@ model invoice{
   invoice_number String
   company_address String
   bill_to       String
-  invoice_date   DateTime
-  due_date       DateTime
+  invoice_date   DateTime?
+  due_date       DateTime?
   items         Json
+  notes         String?
   sub_total      Float
   total         Float
   discount      Float?

@@ -7,8 +7,7 @@ app.use(express.json());
 
 app.use('/invoices', invoiceRoutes);
 
-const PORT = process.env.PORT || 5050;
+const PORT = process.env.DATABASE_PORT || 5050;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
-    console.log(process.env.PORT)
 });
