@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Homepage from "../components/Homepage";
 import Auth from "../components/Auth";
 import Account from "../components/Account";
+import Dashboard from "../components/Dashboard";
 import Root from "../pages/Root";
 import React from "react";
 
@@ -17,6 +18,10 @@ const appRouter = createBrowserRouter([
          {
           path: '/InvoiceGenerator/login',
           element: <Auth />,
+        },
+        {
+          path: '/InvoiceGenerator/dashboard',
+          element: <Dashboard/>,
         },
         {
           path: '/InvoiceGenerator/account',

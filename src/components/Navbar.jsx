@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, BrowserRouter, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   Menubar,
   MenubarContent,
@@ -17,12 +17,12 @@ const Navbar = () => {
   const session = useContext(SessionContext);
   console.log(session);
   return (
-    <div className=" w-1/2 items-center fixed">
+    <div className="w-screen items-center fixed">
       <Menubar>
         <MenubarMenu>
         <div className="flex w-full justify-between">
         <div>
-        <NavLink to="/InvoiceGenerator/">
+        <NavLink to="/InvoiceGenerator/dashboard">
             <MenubarTrigger className="font-bold gap-1 items-center text-xl"><PiInvoice size={24} />
           QuickSlip</MenubarTrigger>
           </NavLink>
@@ -31,7 +31,7 @@ const Navbar = () => {
           <div className="flex items-center">
 
           <NavLink to="/InvoiceGenerator/">
-            <MenubarTrigger>Home</MenubarTrigger>
+            <MenubarTrigger>Create Invoice</MenubarTrigger>
           </NavLink>
           <NavLink to="/InvoiceGenerator/">
             <MenubarTrigger>Contact us</MenubarTrigger>
