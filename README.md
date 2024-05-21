@@ -1,4 +1,6 @@
 # QuickSlip
 The Lightning fast way to create your invoices for your rising business⚡️
 
-<img width="1471" alt="Screenshot 2024-05-15 at 3 59 10 AM" src="https://github.com/ShazanRizvi/InvoiceGenerator/assets/85864291/d7c30af7-e16e-448e-9bd4-1bd46de65e9d">
+
+![InvoiceGenerator](https://github.com/ShazanRizvi/InvoiceGenerator/assets/85864291/90e622ff-664e-49cf-9f47-1c7ac1e3a930)
+![InvoiceGenerator · 5 12pm · 05-21](https://github.com/ShazanRizvi/InvoiceGenerator/assets/85864291/7d84adc8-9e6d-4849-b23a-4066699d1382)
