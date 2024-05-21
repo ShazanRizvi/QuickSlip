@@ -2,7 +2,7 @@ const invoiceService = require('../services/invoiceService');
 
 const postInvoice = async (req, res) => {
     try {
-        const invoice = await invoiceService.createInvoice(req.body);
+        const invoice = await invoiceService.createInvoice(req.body, req);
         res.status(201).json(invoice);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -19,7 +19,7 @@ const updateInvoice = async (req, res) => {
 };
 const getInvoices = async (req, res) => {
     try {
-        const invoices = await invoiceService.getInvoices();
+        const invoices = await invoiceService.getInvoices(req,res);
         res.status(200).json(invoices);
     } catch (error) {
         res.status(500).json({ message: error.message });

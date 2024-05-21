@@ -43,6 +43,7 @@ const InvoiceEditor = ({ onUpdate }) => {
       validationSchema={invoiceSchema}
       initialValues={{
         invoiceNumber: "",
+        companyName:"",
         companyAddress: "",
         billTo: "",
         dateIssued: today.toLocaleDateString(locale, options),
@@ -86,6 +87,25 @@ const InvoiceEditor = ({ onUpdate }) => {
                 component={FormikFilePicker}
               />
             </div>
+            
+            <div className="w-1/2">
+              <Label htmlFor="companyname">Company Name</Label>
+              <Field
+                name="companyName"
+                component={FormikInput}
+                className={`mb-2 p-2 border ${
+                  touched.companyName && errors.companyName
+                    ? "border-red-500"
+                    : ""
+                }`}
+                placeholder="#001"
+              />
+              {touched.companyName && errors.companyName && (
+                <div className="text-red-500 text-sm font-semibold mt-0">
+                  {errors.invoiceNumber}
+                </div>
+              )}
+            </div>
             <div className="w-1/2">
               <Label htmlFor="invoicenumber">Invoice Number</Label>
               <Field
@@ -104,6 +124,8 @@ const InvoiceEditor = ({ onUpdate }) => {
                 </div>
               )}
             </div>
+          
+            
           </div>
           {/* div 2 */}
           <div className="flex gap-2 justify-between mt-2 mb-2">

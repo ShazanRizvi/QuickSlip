@@ -16,7 +16,9 @@ datasource db {
 
 model invoice{
   id          String   @id @default(cuid())
+  user_id     String   @db.Uuid @default(uuid())
   invoice_number String
+  company_name   String
   company_address String
   bill_to       String
   invoice_date   DateTime?

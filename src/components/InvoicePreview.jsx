@@ -21,10 +21,10 @@ const InvoicePreview = ({ previewData }) => {
       {/* div 1 */}
       <div className="flex justify-between mt-10">
         <div>
-          <h1 className="text-xl font-bold dark:text-white">INVOICE</h1>
-          <p className="text-lg font-light dark:text-white ">
-            {previewData?.invoiceNumber}
-          </p>
+          <h1 className="text-xl font-bold dark:text-white">{previewData.companyName}</h1>
+          <div className="text-lg font-light dark:text-white ">
+            <span>INVOICE</span> <span>{previewData?.invoiceNumber}</span>
+          </div>
         </div>
        <div className="w-1/6 h-1/2 flex justify-end">
         <img src={logo} alt="Company Logo" className="object-cover" />
