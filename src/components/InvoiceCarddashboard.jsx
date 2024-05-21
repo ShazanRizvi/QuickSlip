@@ -16,12 +16,12 @@ const InvoiceCarddashboard = () => {
         <BiLogoBlogger size={40} color="#2563eb" />
         <TooltipProvider>
           <Tooltip>
-          <div className=' flex rounded-full text-sm bg-blue-100 dark:bg-blue-950 border border-blue-600 px-4 items-center'>
+          <div className=' flex p-0 rounded-full font-semibold text-sm text-blue-700 dark:text-blue-400 bg-blue-100 dark:bg-blue-950 border border-blue-600 px-4 items-center'>
           <TooltipTrigger>Business Invoice</TooltipTrigger>
           </div>
            
             <TooltipContent>
-              <p>Add to library</p>
+              <p>This is a business invoice</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

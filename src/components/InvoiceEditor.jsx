@@ -61,7 +61,7 @@ const InvoiceEditor = ({ onUpdate }) => {
       }}
     >
       {({ values, setFieldValue, handleChange, errors, touched }) => (
-        <Form className="p-8 mt-6 rounded-md overflow-auto bg-[#1f2936]">
+        <Form className="p-8 mt-5 rounded-md overflow-auto dark:bg-[#1f2936] ">
           <div className="w-full flex justify-between items-center mb-4">
             <h1 className="text-2xl font-bold dark:text-white">
               Invoice Editor

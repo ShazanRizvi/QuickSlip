@@ -40,7 +40,7 @@ export default function Auth() {
       <Card className="w-[500px]">
         <CardHeader>
           <CardTitle className="flex gap-1">
-          <PiInvoice />
+          <PiInvoice size={24} />
           QuickSlip</CardTitle>
           <CardDescription>Experience the fastest invoice generation!</CardDescription>
         </CardHeader>
@@ -57,9 +57,9 @@ export default function Auth() {
         </CardContent>
         <CardFooter className="flex w-full">
           
-          <Button size="lg" variant="default" disabled={loading}>
+          <Button className='w-full justify-between' variant="default" disabled={loading}>
           {loading ? <span>Loading</span> : <span>Send magic link</span>}
-            <IoMdReturnLeft className="w-3 h-5 ml-2" />
+            <IoMdReturnLeft size={12} />
           </Button>
         </CardFooter>
       </Card>

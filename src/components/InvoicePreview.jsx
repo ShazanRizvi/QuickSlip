@@ -14,10 +14,10 @@ const InvoicePreview = ({ previewData }) => {
   };
 
   return (
-    <div className="container p-8 mt-6 rounded-md overflow-auto dark:bg-[#1f2936]">
-      <h1 className="text-2xl font-bold mb-5 dark:text-white">
+    <div className="container p-7 mt-6 rounded-md overflow-auto dark:bg-[#1f2936]">
+      {/* <h1 className="text-2xl font-bold mb-5 dark:text-white">
         Invoice Preview
-      </h1>
+      </h1> */}
       {/* div 1 */}
       <div className="flex justify-between mt-10">
         <div>
