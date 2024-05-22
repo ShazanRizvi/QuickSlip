@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, FieldArray, useFormikContext } from "formik";
 import invoiceSchema from "../utils/ValidationSchema";
 import { Label } from "./ui/label";
@@ -12,7 +12,10 @@ import { RxCross2 } from "react-icons/rx";
 import { TbEyeDotted } from "react-icons/tb";
 import { HiMiniPlus } from "react-icons/hi2";
 
+
 const InvoiceEditor = ({ onUpdate }) => {
+  
+
   const locale = "en-US";
   const options = {
     weekday: "short",
@@ -21,7 +24,7 @@ const InvoiceEditor = ({ onUpdate }) => {
     day: "numeric",
   };
 
-  // Create date strings for today and a date 30 days from today
+  //Helpers
   const today = new Date();
   const thirtyDaysLater = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
 
@@ -38,12 +41,13 @@ const InvoiceEditor = ({ onUpdate }) => {
     return { subtotal, tax, total };
   };
 
+ 
   return (
     <Formik
       validationSchema={invoiceSchema}
       initialValues={{
         invoiceNumber: "",
-        companyName:"",
+        companyName: "",
         companyAddress: "",
         billTo: "",
         dateIssued: today.toLocaleDateString(locale, options),
@@ -62,20 +66,27 @@ const InvoiceEditor = ({ onUpdate }) => {
       }}
     >
       {({ values, setFieldValue, handleChange, errors, touched }) => (
-        <Form className="p-8 mt-5 rounded-md overflow-auto dark:bg-[#1f2936] ">
+        <Form  className="p-8 mt-5 rounded-md overflow-auto dark:bg-[#1f2936] ">
           <div className="w-full flex justify-between items-center mb-4">
             <h1 className="text-2xl font-bold dark:text-white">
               Invoice Editor
             </h1>
-            <Button
-              variant="default"
-              //disabled={Object.keys(errors).length > 0}
-              onClick={() => onUpdate(values)}
-              className="mt-4 mb-4 p-2 gap-2 "
-            >
-              <TbEyeDotted size={20} />
-              Preview
-            </Button>
+            {/* CTA's */}
+            <div className="flex justify-end mt-5 gap-4">
+              
+              {/* <Button className=" p-3" variant="default">
+                Save and Send
+              </Button> */}
+              <Button
+                variant="default"
+                //disabled={Object.keys(errors).length > 0}
+                onClick={() => onUpdate(values)}
+                className="p-2 gap-2 "
+              >
+                <TbEyeDotted size={20} />
+                Preview
+              </Button>
+            </div>
           </div>
           {/* div1 */}
           <div className="flex gap-2 justify-between">
@@ -87,7 +98,7 @@ const InvoiceEditor = ({ onUpdate }) => {
                 component={FormikFilePicker}
               />
             </div>
-            
+
             <div className="w-1/2">
               <Label htmlFor="companyname">Company Name</Label>
               <Field
@@ -98,11 +109,11 @@ const InvoiceEditor = ({ onUpdate }) => {
                     ? "border-red-500"
                     : ""
                 }`}
-                placeholder="#001"
+                placeholder="Lamborghini Inc."
               />
               {touched.companyName && errors.companyName && (
                 <div className="text-red-500 text-sm font-semibold mt-0">
-                  {errors.invoiceNumber}
+                  {errors.companyName}
                 </div>
               )}
             </div>
@@ -124,8 +135,6 @@ const InvoiceEditor = ({ onUpdate }) => {
                 </div>
               )}
             </div>
-          
-            
           </div>
           {/* div 2 */}
           <div className="flex gap-2 justify-between mt-2 mb-2">
@@ -211,7 +220,7 @@ const InvoiceEditor = ({ onUpdate }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {console.log(values.items)}
+                    {/* {console.log(values.items)} */}
                     {values.items?.map((item, index) => (
                       <tr key={index}>
                         <td>

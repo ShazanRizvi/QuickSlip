@@ -3,11 +3,13 @@ import InvoiceCarddashboard from "./InvoiceCarddashboard";
 import SideBardashboard from "./SideBardashboard";
 import callAPI from "../http/axios";
 import SessionContext from "../context/session";
-import { set } from "date-fns";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 const Dashboard = () => {
   const [invoices, setInvoices] = useState([]);
+  const [loading, setLoading] = useState(true);
   const session = useContext(SessionContext);
+  console.log("session", session);
   const headers = {
     Authorization: `Bearer ${session?.access_token}`,
     "Content-Type": "application/json",
@@ -15,8 +17,14 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const fetchedInvoices = await callAPI("GET", "/getInvoices", null, headers);
+        const fetchedInvoices = await callAPI(
+          "GET",
+          "/getInvoices",
+          null,
+          headers
+        );
         setInvoices(fetchedInvoices);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching invoices:", error);
       }
@@ -35,14 +43,17 @@ const Dashboard = () => {
         </div>
         {/* This is card grid */}
         <div className="pt-10 grid grid-cols-3 gap-5 place-content-center">
-          {invoices?.map((invoice) => {
-           
-            return (
-              <div>
-                <InvoiceCarddashboard invoice={invoice} />
-              </div>
-            );
-          })}
+          {loading ? (
+            <LoadingSkeleton />
+          ) : (
+            invoices?.map((invoice) => {
+              return (
+                <div>
+                  <InvoiceCarddashboard invoice={invoice} />
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

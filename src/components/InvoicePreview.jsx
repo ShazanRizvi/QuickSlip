@@ -1,16 +1,36 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import logo from "../assets/react.svg";
-
+import callAPI from "../http/axios";
+import SessionContext from "../context/session";
 
 const InvoicePreview = ({ previewData }) => {
-  console.log("This is preview data from Invoice preview", previewData);
-  const options = {
-    weekday: "short",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
+  const formatToISO8601 = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString();
+  };
+  const postData={
+    invoice_number: previewData.invoiceNumber,
+    company_name: previewData.companyName,
+    company_address: previewData.companyAddress,
+    bill_to: previewData.billTo,
+    items: previewData.items,
+    invoice_date: formatToISO8601(previewData.dateIssued),
+    due_date: formatToISO8601(previewData.dueDate),
+    sub_total: previewData.subtotal,
+    tax_rate: previewData.taxRate,
+    total: previewData.total,
+    notes: previewData.notes,
+  }
+  const session = useContext(SessionContext);
+  const handleSubmit = async() => {
+    const headers = {
+      Authorization: `Bearer ${session?.access_token}`,
+      "Content-Type": "application/json",
+    };
+    console.log("This is preview data for submit", postData);
+    await callAPI("POST", "/createinvoice", postData, headers)
   };
 
   return (
@@ -21,16 +41,16 @@ const InvoicePreview = ({ previewData }) => {
       {/* div 1 */}
       <div className="flex justify-between mt-10">
         <div>
-          <h1 className="text-xl font-bold dark:text-white">{previewData.companyName}</h1>
+          <h1 className="text-xl font-bold dark:text-white">
+            {previewData.companyName}
+          </h1>
           <div className="text-lg font-light dark:text-white ">
             <span>INVOICE</span> <span>{previewData?.invoiceNumber}</span>
           </div>
         </div>
-       <div className="w-1/6 h-1/2 flex justify-end">
-        <img src={logo} alt="Company Logo" className="object-cover" />
+        <div className="w-1/6 h-1/2 flex justify-end">
+          <img src={logo} alt="Company Logo" className="object-cover" />
         </div>
-       
-        
       </div>
       {/* div 2 Address */}
       <div className="flex justify-between mt-10">
@@ -139,13 +159,14 @@ const InvoicePreview = ({ previewData }) => {
           </h1>
         </div>
       </div>
-          <Separator />
-          {/* CTA's */}
-          <div className="flex justify-end mt-5 gap-4">
-          <Button className='p-3' variant='outline'>Save</Button>
-            <Button className=' p-3' variant='default'>Save and Send</Button>
-            
-            </div>
+      <Separator />
+      {/* CTA's */}
+      <div className="flex justify-end mt-5 gap-4">
+        <Button onClick={()=>handleSubmit()} className="p-3" variant="outline">
+          Save Invoice
+        </Button>
+        {/* <Button className=' p-3' variant='default'>Save and Send</Button> */}
+      </div>
     </div>
   );
 };

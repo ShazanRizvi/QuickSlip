@@ -3,6 +3,8 @@ import * as Yup from 'yup';
 const invoiceSchema = Yup.object().shape({
   invoiceNumber: Yup.string()
     .required('Invoice number is required'),
+    companyName: Yup.string()
+    .required('Company Name is required'),
   companyAddress: Yup.string()
     .required('Company address is required'),
   billTo: Yup.string()

@@ -8,6 +8,7 @@ const Homepage = () => {
     console.log("errrors",errors)
 
     setPreviewData(data);
+    console.log("preview data", data);
   };
   return (
     <div className="flex gap-4 justify-center mx-6">

@@ -32,13 +32,13 @@ const Navbar = () => {
           
           <div className="flex items-center">
 
-          <NavLink to="/InvoiceGenerator/">
+          <NavLink to="/InvoiceGenerator/createbusinessinvoice">
             <MenubarTrigger>Create Invoice</MenubarTrigger>
           </NavLink>
-          <NavLink to="/InvoiceGenerator/">
+          <NavLink to="/InvoiceGenerator/dashboard">
             <MenubarTrigger>Contact us</MenubarTrigger>
           </NavLink>
-          <NavLink to="/InvoiceGenerator/">
+          <NavLink to="/InvoiceGenerator/dashboard">
             <MenubarTrigger>About Us</MenubarTrigger>
           </NavLink>
           {!session ? (
