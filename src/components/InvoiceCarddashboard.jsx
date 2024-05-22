@@ -9,7 +9,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-const InvoiceCarddashboard = () => {
+const InvoiceCarddashboard = ({invoice}) => {
+  console.log("invoice from card",invoice)
   return (
     <div className="p-6 border border-slate-100 dark:bg-[#1f2936] dark:border-none rounded-lg">
       <div className="flex justify-between">
@@ -28,11 +29,11 @@ const InvoiceCarddashboard = () => {
       </div>
 
       <div className="pt-10">
-        <h1 className="text-base font-semibold">Invoice #RT3080</h1>
+        <h1 className="text-base font-semibold">{invoice?.invoice_number}</h1>
       </div>
       <div className="gap-1">
         <p className="text-base font-normal text-slate-400">
-          Due on: May 12,2024
+          {invoice?.company_name}
         </p>
       </div>
       <div className="flex justify-between gap-4 pt-5">

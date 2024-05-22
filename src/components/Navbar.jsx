@@ -15,7 +15,9 @@ import { PiInvoice } from "react-icons/pi";
 
 const Navbar = () => {
   const session = useContext(SessionContext);
-  console.log(session);
+  //console.log('session',session);
+  //console.log('user id', session?.user?.id)
+  //console.log('user access token', session?.access_token)
   return (
     <div className="w-screen items-center fixed">
       <Menubar>
