@@ -1,16 +1,19 @@
-import React, {useContext} from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import logo from "../assets/react.svg";
 import callAPI from "../http/axios";
 import SessionContext from "../context/session";
+import { IoSaveOutline} from "react-icons/io5";
+import { ImSpinner2 } from "react-icons/im";
+
 
 const InvoicePreview = ({ previewData }) => {
   const formatToISO8601 = (dateString) => {
     const date = new Date(dateString);
     return date.toISOString();
   };
-  const postData={
+  const postData = {
     invoice_number: previewData.invoiceNumber,
     company_name: previewData.companyName,
     company_address: previewData.companyAddress,
@@ -22,22 +25,56 @@ const InvoicePreview = ({ previewData }) => {
     tax_rate: previewData.taxRate,
     total: previewData.total,
     notes: previewData.notes,
-  }
+  };
+  const hasEmptyFields = Object.values(postData).some(
+    (value) => value === '' || (Array.isArray(value) && value.length === 0)
+  );
   const session = useContext(SessionContext);
-  const handleSubmit = async() => {
+  const [isLoading, setIsLoading] = useState(false);
+  const handleSubmit = async () => {
+    setIsLoading(true);
     const headers = {
       Authorization: `Bearer ${session?.access_token}`,
       "Content-Type": "application/json",
     };
     console.log("This is preview data for submit", postData);
-    await callAPI("POST", "/createinvoice", postData, headers)
+    try {
+      await callAPI("POST", "/createinvoice", postData, headers);
+    } finally{
+      setIsLoading(false);
+    }
+    
   };
 
   return (
     <div className="container p-7 mt-6 rounded-md overflow-auto dark:bg-[#1f2936]">
-      {/* <h1 className="text-2xl font-bold mb-5 dark:text-white">
-        Invoice Preview
-      </h1> */}
+      <div className="flex justify-between items-center">
+        
+          <h1 className="text-2xl font-bold mb-5 dark:text-white">
+            Invoice Preview
+          </h1>
+      
+        <div>
+          <Button
+            onClick={() => handleSubmit()}
+            className="p-4 text-md gap-2"
+            variant="default"
+            disabled={isLoading || hasEmptyFields}
+          >
+            {isLoading ? (
+              <span>
+                <ImSpinner2 size={20} className="animate-spin" />
+              </span>
+            ) : (
+              <span>
+                <IoSaveOutline size={20} />
+              </span>
+            )}
+            <span>{isLoading ? 'Saving...' : 'Save Invoice'}</span>
+          </Button>
+        </div>
+      </div>
+
       {/* div 1 */}
       <div className="flex justify-between mt-10">
         <div>
@@ -162,9 +199,9 @@ const InvoicePreview = ({ previewData }) => {
       <Separator />
       {/* CTA's */}
       <div className="flex justify-end mt-5 gap-4">
-        <Button onClick={()=>handleSubmit()} className="p-3" variant="outline">
-          Save Invoice
-        </Button>
+        {/* <Button onClick={()=>handleSubmit()} className="p-6 text-lg gap-2" variant="default">
+          <span><IoSaveOutline size={20}/></span> <span>Save Invoice</span>
+        </Button> */}
         {/* <Button className=' p-3' variant='default'>Save and Send</Button> */}
       </div>
     </div>

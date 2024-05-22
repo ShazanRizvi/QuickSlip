@@ -14,6 +14,7 @@ import { Label } from "./ui/label"
 
 import { IoMdReturnLeft } from "react-icons/io";
 import { PiInvoice } from "react-icons/pi";
+import toast from "react-hot-toast";
 
 export default function Auth() {
   const [loading, setLoading] = useState(false);
@@ -26,9 +27,9 @@ export default function Auth() {
     const { error } = await supabase.auth.signInWithOtp({ email });
 
     if (error) {
-      alert(error.error_description || error.message);
+      toast.error(error.error_description || error.message);
     } else {
-      alert("Check your email for the login link!");
+      toast.success("Check your email for the login link!");
     }
     setLoading(false);
     

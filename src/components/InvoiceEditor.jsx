@@ -72,7 +72,7 @@ const InvoiceEditor = ({ onUpdate }) => {
               Invoice Editor
             </h1>
             {/* CTA's */}
-            <div className="flex justify-end mt-5 gap-4">
+            <div className="flex justify-end gap-4">
               
               {/* <Button className=" p-3" variant="default">
                 Save and Send
@@ -81,7 +81,7 @@ const InvoiceEditor = ({ onUpdate }) => {
                 variant="default"
                 //disabled={Object.keys(errors).length > 0}
                 onClick={() => onUpdate(values)}
-                className="p-2 gap-2 "
+                className="p-4 text-md gap-2 "
               >
                 <TbEyeDotted size={20} />
                 Preview

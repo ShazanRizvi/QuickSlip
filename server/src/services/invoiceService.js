@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const createInvoice = async (invoiceData, req, res) => {
-  console.log("req",req)
+  //console.log("req",req)
   const {
     invoice_number,
     company_name,
@@ -33,7 +33,7 @@ const createInvoice = async (invoiceData, req, res) => {
       notes:notes,
       }
     });
-    return invoice;
+    return {invoice, message:"Invoice created successfully"};
   } catch (error) {
     throw error;
   }
