@@ -1,21 +1,13 @@
-
-
 services:
-  frontend:
+  app:
     build:
-      context: ./Frontend
+      context: .
     ports:
       - '3000:3000'
     networks:
       - app-network
-
-  backend:
-    build:
-      context: ./server
-    ports:
-      - '5050:5050'
-    networks:
-      - app-network
+    environment:
+      - NODE_ENV=production
 
 networks:
   app-network:
