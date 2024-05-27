@@ -30,6 +30,8 @@ RUN npm install
 
 # Copy the rest of the backend source code
 COPY ./server .
+# Generate Prisma Client
+RUN npx prisma generate
 
 # Copy the built frontend from the previous stage
 COPY --from=build-frontend /app/frontend/dist ./public
