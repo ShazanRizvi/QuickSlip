@@ -25,10 +25,20 @@ const getInvoices = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+const getInvoicebyId=async(req, res)=>{
+    try {
+        const invoice = await invoiceService.getInvoicebyId(req.params.id);
+        res.status(200).json(invoice);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+}
 
 module.exports = {
     postInvoice,
     updateInvoice,
-    getInvoices
+    getInvoices,
+    getInvoicebyId
 };
 

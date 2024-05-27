@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import InvoiceCarddashboard from "./InvoiceCarddashboard";
 import SideBardashboard from "./SideBardashboard";
 import callAPI from "../http/axios";
@@ -9,6 +10,7 @@ const Dashboard = () => {
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
   const session = useContext(SessionContext);
+  const navigate = useNavigate();
   console.log("session", session);
   const headers = {
     Authorization: `Bearer ${session?.access_token}`,
@@ -32,6 +34,14 @@ const Dashboard = () => {
 
     fetchInvoices();
   }, []);
+  
+//   const getInvoiceById=async(id)=>{
+//     try {
+//       navigate(`/InvoiceGenerator/editinvoice/${id}`)
+//   }catch(error){
+//     console.error('Error fetching invoice:',error);
+//   }
+// }
 
   return (
     <div className="pt-4 flex h-screen dark:text-white w-screen gap-3 overflow-hidden">

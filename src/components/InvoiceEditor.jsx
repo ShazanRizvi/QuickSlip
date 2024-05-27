@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Formik, Form, Field, FieldArray, useFormikContext } from "formik";
 import invoiceSchema from "../utils/ValidationSchema";
 import { Label } from "./ui/label";
@@ -11,11 +11,14 @@ import { Separator } from "./ui/separator";
 import { RxCross2 } from "react-icons/rx";
 import { TbEyeDotted } from "react-icons/tb";
 import { HiMiniPlus } from "react-icons/hi2";
-
+import { useParams } from "react-router-dom";
+import callAPI from "../http/axios";
+import SessionContext from "../context/session";
 
 const InvoiceEditor = ({ onUpdate }) => {
-  
-
+  const { id } = useParams();
+  const session = useContext(SessionContext);
+  //Helpers
   const locale = "en-US";
   const options = {
     weekday: "short",
@@ -23,11 +26,6 @@ const InvoiceEditor = ({ onUpdate }) => {
     month: "short",
     day: "numeric",
   };
-
-  //Helpers
-  const today = new Date();
-  const thirtyDaysLater = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
-
   const calculateLineAmount = (rate, quantity) =>
     parseFloat(rate) * parseInt(quantity, 10);
 
@@ -40,24 +38,63 @@ const InvoiceEditor = ({ onUpdate }) => {
     const total = subtotal + tax - discount;
     return { subtotal, tax, total };
   };
+  const today = new Date();
+  const thirtyDaysLater = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
 
- 
+
+
+  const [initialValues, setInitialValues] = useState({
+    invoiceNumber: "",
+    companyName: "",
+    companyAddress: "",
+    billTo: "",
+    dateIssued: today.toLocaleDateString(locale, options),
+    dueDate: thirtyDaysLater.toLocaleDateString(locale, options),
+    items: [{ item: "", rate: 0, quantity: 0, amount: 0 }],
+    subtotal: 0,
+    taxRate: 5, // 5% tax rate for example
+    discount: 0,
+    total: 0,
+  });
+  const [isEditing, setisEditing] = useState(false);
+  const headers = {
+    Authorization: `Bearer ${session?.access_token}`,
+    "Content-Type": "application/json",
+  };
+
+  
+  useEffect(() => {
+    if (id) {
+      setisEditing(true);
+      callAPI('GET',`/${id}`,null, headers).then(data => {
+        setInitialValues({
+          invoiceNumber: data.invoice_number,
+          companyName: data.company_name,
+          companyAddress: data.company_address,
+          billTo: data.bill_to,
+          dateIssued: data.invoice_date,
+          dueDate: data.due_date,
+          items: data.items,
+          subtotal: data.sub_total,
+          taxRate: data.tax_rate,
+          discount: data.discount,
+          total: data.total,
+        });
+      }).catch(error => {
+        console.error('Error fetching invoice:', error);
+      });
+    }
+  }, [id]);
+
+
+  
+
   return (
     <Formik
       validationSchema={invoiceSchema}
-      initialValues={{
-        invoiceNumber: "",
-        companyName: "",
-        companyAddress: "",
-        billTo: "",
-        dateIssued: today.toLocaleDateString(locale, options),
-        dueDate: thirtyDaysLater.toLocaleDateString(locale, options),
-        items: [{ item: "", rate: 0, quantity: 0, amount: 0 }],
-        subtotal: 0,
-        taxRate: 5, // 5% tax rate for example
-        discount: 0,
-        total: 0,
-      }}
+      initialValues={initialValues}
+      enableReinitialize={true}
+
       onSubmit={(values) => {
         console.log(values);
       }}
@@ -66,14 +103,13 @@ const InvoiceEditor = ({ onUpdate }) => {
       }}
     >
       {({ values, setFieldValue, handleChange, errors, touched }) => (
-        <Form  className="p-8 mt-5 rounded-md overflow-auto dark:bg-[#1f2936] ">
+        <Form className="p-8 mt-5 rounded-md overflow-auto dark:bg-[#1f2936]">
           <div className="w-full flex justify-between items-center mb-4">
             <h1 className="text-2xl font-bold dark:text-white">
               Invoice Editor
             </h1>
             {/* CTA's */}
             <div className="flex justify-end gap-4">
-              
               {/* <Button className=" p-3" variant="default">
                 Save and Send
               </Button> */}

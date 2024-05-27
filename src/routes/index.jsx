@@ -7,6 +7,7 @@ import SessionStore from "../context/SessionStore";
 import Dashboard from "../components/Dashboard";
 import Root from "../pages/Root";
 import React from "react";
+import ProtectedInvoiceEditor from "../components/ProtectedInvoiceEditor";
 
 const appRouter = createBrowserRouter([
      {
@@ -28,6 +29,10 @@ const appRouter = createBrowserRouter([
         {
           path: '/InvoiceGenerator/account',
           element: <ProtectedRoute><Account/></ProtectedRoute>,
+        },
+        {
+          path: '/InvoiceGenerator/editinvoice/:id',
+          element: <ProtectedRoute><ProtectedInvoiceEditor/></ProtectedRoute>,
         },
          
          // Add other routes as needed

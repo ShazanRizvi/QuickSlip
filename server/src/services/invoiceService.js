@@ -89,10 +89,21 @@ const getInvoices = async (req, res) => {
   }
 
 }
+const getInvoicebyId= async (id) => {
+  try {
+    const invoice = await prisma.invoice.findUnique({
+      where: { id },
+    });
+    return invoice;
+  } catch (error) {
+    throw error;
+  }
+};
 
 module.exports = {
   createInvoice,
   updateInvoice,
-  getInvoices
+  getInvoices,
+  getInvoicebyId,
   // Add more methods as needed
 };

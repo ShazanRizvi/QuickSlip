@@ -9,8 +9,20 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import callAPI from "../http/axios";
+import {useNavigate} from 'react-router-dom'
 const InvoiceCarddashboard = ({invoice}) => {
-  console.log("invoice from card",invoice)
+  //console.log("invoice from card",invoice)
+  const navigate=useNavigate()
+  const navigateToInvoiceEditor=async(id)=>{
+    try {
+      navigate(`/InvoiceGenerator/editinvoice/${id}`)
+  }catch(error){
+    console.error('Error fetching invoice:',error);
+  }
+}
+  
+
   return (
     <div className="p-6 border border-slate-100 dark:bg-[#1f2936] dark:border-none rounded-lg">
       <div className="flex justify-between">
@@ -37,7 +49,7 @@ const InvoiceCarddashboard = ({invoice}) => {
         </p>
       </div>
       <div className="flex justify-between gap-4 pt-5">
-        <Button className="w-1/2 gap-1 items-center">
+        <Button className="w-1/2 gap-1 items-center" onClick={()=>navigateToInvoiceEditor(invoice.id)}>
           <FaRegEdit />
           Edit
         </Button>

@@ -4,6 +4,7 @@ import InvoiceEditor from "./InvoiceEditor";
 
 const Homepage = () => {
   const [previewData, setPreviewData] = useState(null);
+  
   const handleUpdate = (data,errors) => {
     console.log("errrors",errors)
 

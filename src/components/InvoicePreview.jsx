@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import logo from "../assets/react.svg";
@@ -6,9 +6,26 @@ import callAPI from "../http/axios";
 import SessionContext from "../context/session";
 import { IoSaveOutline} from "react-icons/io5";
 import { ImSpinner2 } from "react-icons/im";
+import { useParams } from "react-router-dom";
 
 
 const InvoicePreview = ({ previewData }) => {
+  const {id}=useParams();
+  const session = useContext(SessionContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+
+  useEffect(() => {
+    if(id){
+      setIsEditing(true);
+    }else{
+      setIsEditing(false);
+    }
+  }, []);
+
+
+
   const formatToISO8601 = (dateString) => {
     const date = new Date(dateString);
     return date.toISOString();
@@ -29,8 +46,7 @@ const InvoicePreview = ({ previewData }) => {
   const hasEmptyFields = Object.values(postData).some(
     (value) => value === '' || (Array.isArray(value) && value.length === 0)
   );
-  const session = useContext(SessionContext);
-  const [isLoading, setIsLoading] = useState(false);
+  
   const handleSubmit = async () => {
     setIsLoading(true);
     const headers = {
@@ -38,12 +54,19 @@ const InvoicePreview = ({ previewData }) => {
       "Content-Type": "application/json",
     };
     console.log("This is preview data for submit", postData);
-    try {
-      await callAPI("POST", "/createinvoice", postData, headers);
-    } finally{
-      setIsLoading(false);
+    if(isEditing){
+      try {
+        await callAPI("PUT", `/updateinvoice/${id}`, postData, headers);
+      }finally{
+        setIsLoading(false);
+      }
+    }else{
+      try {
+        await callAPI("POST", "/createinvoice", postData, headers);
+      }finally{
+        setIsLoading(false);
+      }
     }
-    
   };
 
   return (
@@ -55,6 +78,7 @@ const InvoicePreview = ({ previewData }) => {
           </h1>
       
         <div>
+        {isEditing?
           <Button
             onClick={() => handleSubmit()}
             className="p-4 text-md gap-2"
@@ -70,8 +94,25 @@ const InvoicePreview = ({ previewData }) => {
                 <IoSaveOutline size={20} />
               </span>
             )}
+            <span>{isLoading ? 'Saving...' : 'Save Edited Invoice'}</span>
+          </Button>:<Button
+            onClick={() => handleSubmit()}
+            className="p-4 text-md gap-2"
+            variant="default"
+            disabled={isLoading || hasEmptyFields}
+          >
+            {isLoading ? (
+              <span>
+                <ImSpinner2 size={20} className="animate-spin" />
+              </span>
+            ) : (
+              <span>
+                <IoSaveOutline size={20} />
+              </span>
+            )}
             <span>{isLoading ? 'Saving...' : 'Save Invoice'}</span>
-          </Button>
+          </Button>}
+          
         </div>
       </div>
 
