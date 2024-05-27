@@ -5,6 +5,7 @@ import logo from "../assets/react.svg";
 import callAPI from "../http/axios";
 import SessionContext from "../context/session";
 import { IoSaveOutline} from "react-icons/io5";
+import { RxUpdate } from "react-icons/rx";
 import { ImSpinner2 } from "react-icons/im";
 import { useParams } from "react-router-dom";
 
@@ -91,10 +92,10 @@ const InvoicePreview = ({ previewData }) => {
               </span>
             ) : (
               <span>
-                <IoSaveOutline size={20} />
+                <RxUpdate size={20} />
               </span>
             )}
-            <span>{isLoading ? 'Saving...' : 'Save Edited Invoice'}</span>
+            <span>{isLoading ? 'Saving...' : 'Update Invoice'}</span>
           </Button>:<Button
             onClick={() => handleSubmit()}
             className="p-4 text-md gap-2"

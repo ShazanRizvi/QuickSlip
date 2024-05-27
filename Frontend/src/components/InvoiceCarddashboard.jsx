@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { BiLogoBlogger } from "react-icons/bi";
 import { FaRegEdit } from "react-icons/fa";
 import { IoPlayOutline } from "react-icons/io5";
+import { AiOutlineCloudDownload } from "react-icons/ai";
 import {
   Tooltip,
   TooltipContent,
@@ -57,8 +58,8 @@ const InvoiceCarddashboard = ({invoice}) => {
           variant="outline"
           className="w-1/2 border-none gap-1 items-center"
         >
-          <IoPlayOutline />
-          View
+          <AiOutlineCloudDownload />
+          Download
         </Button>
       </div>
     </div>
