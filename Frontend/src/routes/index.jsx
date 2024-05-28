@@ -8,10 +8,11 @@ import Dashboard from "../components/Dashboard";
 import Root from "../pages/Root";
 import React from "react";
 import ProtectedInvoiceEditor from "../components/ProtectedInvoiceEditor";
+import PublicHomepage from "../pages/PublicHomepage";
 
 const appRouter = createBrowserRouter([
      {
-       path: '/InvoiceGenerator',
+       path: '/',
        element: <SessionStore><Root/></SessionStore>,
        children: [
          {
@@ -21,6 +22,10 @@ const appRouter = createBrowserRouter([
          {
           path: '/InvoiceGenerator/login',
           element: <Auth />,
+        },
+        {
+          path: '/InvoiceGenerator/publichomepage',
+          element: <PublicHomepage />,
         },
         {
           path: '/InvoiceGenerator/dashboard',

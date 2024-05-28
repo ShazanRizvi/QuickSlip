@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
   if (!session) {
     return (
       <Navigate
-        to="/InvoiceGenerator/login"
+        to="/InvoiceGenerator/publichomepage"
         state={{ from: location }}
         replace
       />

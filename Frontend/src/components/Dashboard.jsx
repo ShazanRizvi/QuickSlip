@@ -25,7 +25,7 @@ const Dashboard = () => {
           null,
           headers
         );
-        setInvoices(fetchedInvoices);
+        setInvoices(Array.isArray(fetchedInvoices) ? fetchedInvoices : []);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching invoices:", error);
