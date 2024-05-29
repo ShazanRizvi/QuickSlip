@@ -41,15 +41,14 @@ const Navbar = () => {
           <NavLink to="/InvoiceGenerator/dashboard">
             <MenubarTrigger>About Us</MenubarTrigger>
           </NavLink>
-          {!session ? (
+          
             <NavLink to="/InvoiceGenerator/login">
               <MenubarTrigger>Login</MenubarTrigger>
             </NavLink>
-          ) : (
-            <NavLink to="/InvoiceGenerator/account">
-              <MenubarTrigger><RxAvatar size={24}/></MenubarTrigger>
+            <NavLink to="/InvoiceGenerator/signup">
+              <MenubarTrigger>Signup</MenubarTrigger>
             </NavLink>
-          )}
+          
           </div>
           </div>
         </MenubarMenu>

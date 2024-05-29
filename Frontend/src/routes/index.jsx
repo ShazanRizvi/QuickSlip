@@ -9,6 +9,7 @@ import Root from "../pages/Root";
 import React from "react";
 import ProtectedInvoiceEditor from "../components/ProtectedInvoiceEditor";
 import PublicHomepage from "../pages/PublicHomepage";
+import Login from "../components/Login";
 
 const appRouter = createBrowserRouter([
      {
@@ -24,8 +25,12 @@ const appRouter = createBrowserRouter([
            element: <Homepage />,
          },
          {
-          path: '/InvoiceGenerator/login',
+          path: '/InvoiceGenerator/signup',
           element: <Auth />,
+        },
+        {
+          path: '/InvoiceGenerator/login',
+          element: <Login />,
         },
         {
           path: '/InvoiceGenerator/publichomepage',

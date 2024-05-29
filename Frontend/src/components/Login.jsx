@@ -16,11 +16,10 @@ import { IoMdReturnLeft } from "react-icons/io";
 import { PiInvoice } from "react-icons/pi";
 import toast from "react-hot-toast";
 
-export default function Auth() {
+export default function Login() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -35,7 +34,6 @@ export default function Auth() {
     }
     setLoading(false);
   };
-  
 
   return (
     <div className="flex h-screen justify-center items-center ">
@@ -58,8 +56,8 @@ export default function Auth() {
                 <Input
                   id="email"
                   value={email}
+                  className="h-11"
                   placeholder="Email address"
-                  className='h-11'
                   required
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -70,18 +68,16 @@ export default function Auth() {
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="email">Password</Label>
-               
-                  <Input
-                    type='password'
-                    className='h-11'
-                    id="password"
-                    value={password}
-                    placeholder="Password"
-                    required
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  
-               
+
+                <Input
+                  type="password"
+                  id="password"
+                  className="h-11"
+                  value={password}
+                  placeholder="Password"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
             </div>
           </CardContent>
@@ -91,7 +87,7 @@ export default function Auth() {
               variant="default"
               disabled={loading}
             >
-              {loading ? <span>Loading</span> : <span>Sign Up</span>}
+              {loading ? <span>Loading</span> : <span>Login</span>}
               <IoMdReturnLeft size={12} />
             </Button>
           </CardFooter>
