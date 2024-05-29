@@ -1,15 +1,18 @@
 const express = require('express');
 const invoiceRoutes = require('./src/routes/invoiceRoutes');
+const authRoutes = require('./src/routes/authRoutes');
 const cors = require('cors');
 const app = express();
 const path = require('path');
+//const { auth } = require('./src/supabaseClient');
 require('dotenv').config();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(cors());
 
-app.use('/invoices', invoiceRoutes);
+app.use('/api', invoiceRoutes);
+app.use('/auth', authRoutes);
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });

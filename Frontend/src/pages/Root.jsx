@@ -4,8 +4,6 @@ import Navbar from "../components/Navbar";
 import { Toaster } from "react-hot-toast";
 import SessionContext from "../context/session";
 import Auth from "../components/Auth";
-import PublicHomepage from "./PublicHomepage";
-
 
 
 const Root = () => {

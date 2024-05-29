@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Homepage from "../components/Homepage";
 import Auth from "../components/Auth";
 import Account from "../components/Account";
@@ -15,6 +15,10 @@ const appRouter = createBrowserRouter([
        path: '/',
        element: <SessionStore><Root/></SessionStore>,
        children: [
+        {
+          index: true, // This indicates it matches the exact path '/'
+          element: <Navigate to="/InvoiceGenerator/publichomepage" replace />
+        },
          {
            path: '/InvoiceGenerator/createbusinessinvoice',
            element: <Homepage />,
