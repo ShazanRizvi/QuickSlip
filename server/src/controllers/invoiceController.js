@@ -34,11 +34,20 @@ const getInvoicebyId=async(req, res)=>{
     }
 
 }
+const deleteInvoice = async (req, res) => {
+    try {
+        const invoice = await invoiceService.deleteInvoice(req.params.id);
+        res.status(200).json(invoice);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 module.exports = {
     postInvoice,
     updateInvoice,
     getInvoices,
-    getInvoicebyId
+    getInvoicebyId,
+    deleteInvoice
 };
 

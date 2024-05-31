@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const createInvoice = async (invoiceData, req, res) => {
+const createInvoice = async (invoiceData, req, res, user) => {
   //console.log("req",req)
   const {
     invoice_number,
@@ -20,7 +20,7 @@ const createInvoice = async (invoiceData, req, res) => {
     const invoice = await prisma.invoice.create({
       data:{
       invoice_number:invoice_number,
-      user_id:req.user.id,
+      user_id:req.user.userId,
       company_name:company_name,
       company_address:company_address,
       bill_to:bill_to,
@@ -70,14 +70,14 @@ const updateInvoice = async (id, invoiceData) => {
         notes:notes,
         },
     });
-    return invoice;
+    return {invoice, message:"Invoice updated successfully"};
   } catch (error) {
     throw error;
   }
 };
 const getInvoices = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     const invoices = await prisma.invoice.findMany({
       where: {
         user_id:userId,
@@ -99,11 +99,22 @@ const getInvoicebyId= async (id) => {
     throw error;
   }
 };
+const deleteInvoice = async (id) => {
+  try {
+    const deletedInvoice = await prisma.invoice.delete({
+      where: { id },
+    });
+    return deletedInvoice;
+  } catch (error) {
+    throw error;
+  }
+};
 
 module.exports = {
   createInvoice,
   updateInvoice,
   getInvoices,
   getInvoicebyId,
+  deleteInvoice
   // Add more methods as needed
 };

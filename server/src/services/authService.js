@@ -24,7 +24,7 @@ const signUp = async (email, password) => {
     JWT_SECRET,
     { expiresIn: "1h" }
   );
-  return { token };
+  return { token, message:"You have successfully signed up for QuickSlip" };
 };
 
 const signIn = async (email, password) => {
@@ -41,6 +41,6 @@ const signIn = async (email, password) => {
   const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, {
     expiresIn: "1h",
   });
-  return { token };
+  return { token, message:"You have successfully signed up for QuickSlip" };
 };
 module.exports = { signUp, signIn };

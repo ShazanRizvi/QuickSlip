@@ -9,5 +9,6 @@ router.post('/createinvoice',authenticateToken, invoiceController.postInvoice);
 router.put('/updateinvoice/:id', authenticateToken, invoiceController.updateInvoice);
 router.get('/getinvoices',authenticateToken, invoiceController.getInvoices);
 router.get('/:id',authenticateToken, invoiceController.getInvoicebyId);
+router.delete('/deleteinvoice/:id',authenticateToken, invoiceController.deleteInvoice);
 
 module.exports = router;
