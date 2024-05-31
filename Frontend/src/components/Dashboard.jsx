@@ -5,15 +5,16 @@ import SideBardashboard from "./SideBardashboard";
 import callAPI from "../http/axios";
 import SessionContext from "../context/session";
 import LoadingSkeleton from "./LoadingSkeleton";
+import { toast } from "react-hot-toast";
 
 const Dashboard = () => {
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const session = useContext(SessionContext);
+  const accessToken=localStorage.getItem('accessToken');
+  //console.log("accessToken", accessToken);
   const navigate = useNavigate();
-  console.log("session", session);
   const headers = {
-    Authorization: `Bearer ${session?.access_token}`,
+    Authorization: `Bearer ${accessToken}`,
     "Content-Type": "application/json",
   };
   useEffect(() => {
@@ -21,7 +22,7 @@ const Dashboard = () => {
       try {
         const fetchedInvoices = await callAPI(
           "GET",
-          "/getInvoices",
+          "/api/getInvoices",
           null,
           headers
         );
@@ -34,14 +35,7 @@ const Dashboard = () => {
 
     fetchInvoices();
   }, []);
-  
-//   const getInvoiceById=async(id)=>{
-//     try {
-//       navigate(`/InvoiceGenerator/editinvoice/${id}`)
-//   }catch(error){
-//     console.error('Error fetching invoice:',error);
-//   }
-// }
+ 
 
   return (
     <div className="pt-4 flex h-screen dark:text-white w-screen gap-3 overflow-hidden">

@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 
 const InvoicePreview = ({ previewData }) => {
   const {id}=useParams();
-  const session = useContext(SessionContext);
+  const accessToken=localStorage.getItem('accessToken');
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -51,19 +51,19 @@ const InvoicePreview = ({ previewData }) => {
   const handleSubmit = async () => {
     setIsLoading(true);
     const headers = {
-      Authorization: `Bearer ${session?.access_token}`,
+      Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     };
     console.log("This is preview data for submit", postData);
     if(isEditing){
       try {
-        await callAPI("PUT", `/updateinvoice/${id}`, postData, headers);
+        await callAPI("PUT", `/api/updateinvoice/${id}`, postData, headers);
       }finally{
         setIsLoading(false);
       }
     }else{
       try {
-        await callAPI("POST", "/createinvoice", postData, headers);
+        await callAPI("POST", "/api/createinvoice", postData, headers);
       }finally{
         setIsLoading(false);
       }

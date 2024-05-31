@@ -17,7 +17,7 @@ import SessionContext from "../context/session";
 
 const InvoiceEditor = ({ onUpdate }) => {
   const { id } = useParams();
-  const session = useContext(SessionContext);
+  const accessToken=localStorage.getItem('accessToken');
   //Helpers
   const locale = "en-US";
   const options = {
@@ -58,7 +58,7 @@ const InvoiceEditor = ({ onUpdate }) => {
   });
   const [isEditing, setisEditing] = useState(false);
   const headers = {
-    Authorization: `Bearer ${session?.access_token}`,
+    Authorization: `Bearer ${accessToken}`,
     "Content-Type": "application/json",
   };
 
@@ -66,7 +66,7 @@ const InvoiceEditor = ({ onUpdate }) => {
   useEffect(() => {
     if (id) {
       setisEditing(true);
-      callAPI('GET',`/${id}`,null, headers).then(data => {
+      callAPI('GET',`/api/${id}`,null, headers).then(data => {
         setInitialValues({
           invoiceNumber: data.invoice_number,
           companyName: data.company_name,

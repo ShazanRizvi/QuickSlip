@@ -19,7 +19,34 @@ const callAPI = async (method, url, data, headers={}) => {
 
     const response = await axios(options);
     console.log("response data from axios call",response.data)
-    toast.success(response?.data?.message)
+    if(response?.data?.message){
+      toast.success(response?.data?.message)
+    }
+    
+    return response?.data;
+    
+    
+  } catch (error) {
+     toast.error(error.message);
+    throw error;
+    
+  }
+};
+const authAPI = async (method, url,data) => {
+  try {
+    const options = {
+      method,
+      url: `${apiBaseUrl}${url}`,
+    };
+    if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
+      options.data = data;
+    }
+   
+   
+
+    const response = await axios(options);
+    console.log("response data from axios call",response.data)
+    console.log("baseURL",apiBaseUrl)
     return response?.data;
     
     
@@ -31,3 +58,4 @@ const callAPI = async (method, url, data, headers={}) => {
 };
 
 export default callAPI;
+export {authAPI};

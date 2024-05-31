@@ -3,9 +3,9 @@ import SessionContext from "../context/session";
 import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const session = useContext(SessionContext);
+  const accessToken = useContext(SessionContext);
   const location = useLocation();
-  if (!session) {
+  if (accessToken===null) {
     return (
       <Navigate
         to="/InvoiceGenerator/publichomepage"

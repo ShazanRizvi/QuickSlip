@@ -11,18 +11,45 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import callAPI from "../http/axios";
-import {useNavigate} from 'react-router-dom'
-const InvoiceCarddashboard = ({invoice}) => {
-  //console.log("invoice from card",invoice)
-  const navigate=useNavigate()
-  const navigateToInvoiceEditor=async(id)=>{
-    try {
-      navigate(`/InvoiceGenerator/editinvoice/${id}`)
-  }catch(error){
-    console.error('Error fetching invoice:',error);
-  }
-}
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { Popover,
+  PopoverContent,
+  PopoverTrigger, } from "@radix-ui/react-popover";
+import { useNavigate } from "react-router-dom";
+
+import toast from "react-hot-toast";
+
+
+const InvoiceCarddashboard = ({ invoice, onDelete }) => {
+  const accessToken=localStorage.getItem('accessToken');
+  //console.log("accessToken", accessToken);
   
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+    "Content-Type": "application/json",
+  };
+  //console.log("invoice from card",invoice)
+  const navigate = useNavigate();
+  const navigateToInvoiceEditor = async (id) => {
+    try {
+      navigate(`/InvoiceGenerator/editinvoice/${id}`);
+    } catch (error) {
+      console.error("Error fetching invoice:", error);
+    }
+  };
+
+
+  const handleDeleteInvoice = async(invoice)=>{
+    try {
+      console.log("invoice id for delete:",invoice.id)
+      await callAPI("DELETE", `/api/deleteinvoice/${invoice.id}`, null, headers);
+      toast.success("Invoice deleted");
+    } catch (error) {
+      toast.error("Error deleting invoice:", error);
+    }
+   }
+   
+ 
 
   return (
     <div className="p-6 border border-slate-100 dark:bg-[#1f2936] dark:border-none rounded-lg">
@@ -30,10 +57,23 @@ const InvoiceCarddashboard = ({invoice}) => {
         <BiLogoBlogger size={40} color="#2563eb" />
         <TooltipProvider>
           <Tooltip>
-          <div className=' flex p-0 rounded-full font-semibold text-sm text-blue-700 dark:text-blue-400 bg-blue-100 dark:bg-blue-950 border border-blue-600 px-4 items-center'>
-          <TooltipTrigger>Business Invoice</TooltipTrigger>
-          </div>
-           
+            <div className="flex items-center">
+              {/* <div className=" flex p-2 rounded-full font-semibold text-sm text-blue-700 dark:text-blue-400 bg-blue-100 dark:bg-blue-950 border border-blue-600 px-4 items-center">
+                <TooltipTrigger>Business Invoice</TooltipTrigger>
+              </div> */}
+              <div>
+                <Popover>
+                  <PopoverTrigger> <BsThreeDotsVertical size={20} className="ml-2" /></PopoverTrigger>
+                  <PopoverContent className="shadow dark:shadow-sm dark:shadow-gray-700 rounded-lg" >
+                  
+                   <Button variant='delete' onClick={()=>handleDeleteInvoice(invoice)}>Delete</Button>
+                   
+                  </PopoverContent>
+                </Popover>
+               
+              </div>
+            </div>
+
             <TooltipContent>
               <p>This is a business invoice</p>
             </TooltipContent>
@@ -50,7 +90,10 @@ const InvoiceCarddashboard = ({invoice}) => {
         </p>
       </div>
       <div className="flex justify-between gap-4 pt-5">
-        <Button className="w-1/2 gap-1 items-center" onClick={()=>navigateToInvoiceEditor(invoice.id)}>
+        <Button
+          className="w-1/2 gap-1 items-center"
+          onClick={() => navigateToInvoiceEditor(invoice.id)}
+        >
           <FaRegEdit />
           Edit
         </Button>

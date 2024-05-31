@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { supabase } from "../supabaseClient";
+//import { supabase } from "../supabaseClient";
 import SessionContext from "../context/session";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -21,12 +21,12 @@ export default function Account() {
       setLoading(true);
       const { user } = session;
 
-      const { data, error } = await supabase
-        .from("profiles")
-        .select(`username, website, avatar_url`)
-        .eq("id", user.id)
-        .single();
-        console.log("user Profile from profiles",data)
+      // const { data, error } = await supabase
+      //   .from("profiles")
+      //   .select(`username, website, avatar_url`)
+      //   .eq("id", user.id)
+      //   .single();
+      //   console.log("user Profile from profiles",data)
 
       if (!ignore) {
         if (error) {
@@ -63,7 +63,7 @@ export default function Account() {
     };
     console.log("updates", updates)
 
-    const { error } = await supabase.from("Users").upsert(updates);
+    //const { error } = await supabase.from("Users").upsert(updates);
 
     if (error) {
       toast.error(error.message);

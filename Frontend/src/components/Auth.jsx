@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { supabase } from "../supabaseClient";
+import { useState, useContext } from "react";
+//import { supabase } from "../supabaseClient";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -15,25 +15,31 @@ import { Label } from "./ui/label";
 import { IoMdReturnLeft } from "react-icons/io";
 import { PiInvoice } from "react-icons/pi";
 import toast from "react-hot-toast";
+import SessionContext from "../context/session";
+import {useNavigate} from "react-router-dom";
 
 export default function Auth() {
+  const {signUp} = useContext(SessionContext); 
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
 
   const handleLogin = async (event) => {
-    event.preventDefault();
-
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOtp({ email });
-
-    if (error) {
-      toast.error(error.error_description || error.message);
-    } else {
-      toast.success("Check your email for the login link!");
+    event.preventDefault();
+    await signUp({email, password});
+    
+    const accessToken = localStorage.getItem("accessToken");
+    if(accessToken){
+      navigate('/InvoiceGenerator/dashboard');
+    }else{
+      setLoading(false);
     }
-    setLoading(false);
+
+    
   };
   
 
