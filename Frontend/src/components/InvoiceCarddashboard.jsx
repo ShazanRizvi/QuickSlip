@@ -12,18 +12,19 @@ import {
 } from "@/components/ui/tooltip";
 import callAPI from "../http/axios";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { Popover,
+import {
+  Popover,
   PopoverContent,
-  PopoverTrigger, } from "@radix-ui/react-popover";
+  PopoverTrigger,
+} from "@radix-ui/react-popover";
 import { useNavigate } from "react-router-dom";
 
 import toast from "react-hot-toast";
 
-
 const InvoiceCarddashboard = ({ invoice, onDelete }) => {
-  const accessToken=localStorage.getItem('accessToken');
+  const accessToken = localStorage.getItem("accessToken");
   //console.log("accessToken", accessToken);
-  
+
   const headers = {
     Authorization: `Bearer ${accessToken}`,
     "Content-Type": "application/json",
@@ -38,21 +39,23 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
     }
   };
 
-
-  const handleDeleteInvoice = async(invoice)=>{
+  const handleDeleteInvoice = async (invoice) => {
     try {
-      console.log("invoice id for delete:",invoice.id)
-      await callAPI("DELETE", `/api/deleteinvoice/${invoice.id}`, null, headers);
+      console.log("invoice id for delete:", invoice.id);
+      await callAPI(
+        "DELETE",
+        `/api/deleteinvoice/${invoice.id}`,
+        null,
+        headers
+      );
       toast.success("Invoice deleted");
     } catch (error) {
       toast.error("Error deleting invoice:", error);
     }
-   }
-   
- 
+  };
 
   return (
-    <div className="p-6 border border-slate-100 dark:bg-[#1f2936] dark:border-none rounded-lg">
+    <div className="p-5 border border-slate-100 dark:bg-[#1f2936] dark:border-none rounded-lg">
       <div className="flex justify-between">
         <BiLogoBlogger size={40} color="#2563eb" />
         <TooltipProvider>
@@ -63,14 +66,19 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
               </div> */}
               <div>
                 <Popover>
-                  <PopoverTrigger> <BsThreeDotsVertical size={20} className="ml-2" /></PopoverTrigger>
-                  <PopoverContent className="shadow dark:shadow-sm dark:shadow-gray-700 rounded-lg" >
-                  
-                   <Button variant='delete' onClick={()=>handleDeleteInvoice(invoice)}>Delete</Button>
-                   
+                  <PopoverTrigger>
+                    {" "}
+                    <BsThreeDotsVertical size={20} className="ml-2" />
+                  </PopoverTrigger>
+                  <PopoverContent className="shadow dark:shadow-sm dark:shadow-gray-700 rounded-lg">
+                    <Button
+                      variant="delete"
+                      onClick={() => handleDeleteInvoice(invoice)}
+                    >
+                      Delete
+                    </Button>
                   </PopoverContent>
                 </Popover>
-               
               </div>
             </div>
 
@@ -81,14 +89,30 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
         </TooltipProvider>
       </div>
 
-      <div className="pt-10">
-        <h1 className="text-base font-semibold">{invoice?.invoice_number}</h1>
+      <div className="flex justify-between pt-10 items-end">
+          <div>
+          <div className="pt-10">
+            <h1 className="text-base font-semibold">
+              {invoice?.invoice_number}
+            </h1>
+          </div>
+          <div className="gap-1">
+            <p className="text-base font-normal text-slate-400">
+              {invoice?.company_name}
+            </p>
+          </div>
+          </div>
+          <div>
+          <TooltipProvider>
+            <Tooltip>
+              <div className="flex items-center  p-1 rounded-full font-semibold text-sm text-green-900 dark:text-green-400 bg-green-200 dark:bg-green-900 border border-green-600 px-4">
+                <TooltipTrigger><span>₹</span><span>{invoice?.total}</span></TooltipTrigger>
+              </div>
+            </Tooltip>
+          </TooltipProvider>
+          </div>
       </div>
-      <div className="gap-1">
-        <p className="text-base font-normal text-slate-400">
-          {invoice?.company_name}
-        </p>
-      </div>
+
       <div className="flex justify-between gap-4 pt-5">
         <Button
           className="w-1/2 gap-1 items-center"

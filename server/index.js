@@ -13,9 +13,9 @@ app.use(cors());
 
 app.use('/api', invoiceRoutes);
 app.use('/auth', authRoutes);
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-  });
+app.get('/', (req, res) => {
+    res.send('Welcome to the Invoice Generator API');
+});
 
 const PORT = process.env.DATABASE_PORT || 3000;
 app.listen(PORT, () => {

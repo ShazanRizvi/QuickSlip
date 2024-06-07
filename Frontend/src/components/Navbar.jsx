@@ -30,7 +30,7 @@ const Navbar = () => {
         <MenubarMenu>
           <div className="flex w-full justify-between">
             <div>
-              <NavLink to="/InvoiceGenerator/dashboard">
+              <NavLink to={accessToken?"/InvoiceGenerator/dashboard":"/InvoiceGenerator/publichomepage"}>
                 <MenubarTrigger className="font-bold gap-1 items-center text-xl">
                   <PiInvoice size={24} />
                   QuickSlip
