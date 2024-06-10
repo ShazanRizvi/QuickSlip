@@ -16,7 +16,7 @@ import { IoMdReturnLeft } from "react-icons/io";
 import { PiInvoice } from "react-icons/pi";
 import toast from "react-hot-toast";
 import SessionContext from "../context/session";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, NavLink} from "react-router-dom";
 
 export default function Login() {
      const {login} = useContext(SessionContext);
@@ -87,6 +87,14 @@ export default function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+            </div>
+            <div className="flex items-center gap-1 mt-1 mb-0 ">
+              <p className="text-sm font-normal">New to QuickSlip?</p>
+              <NavLink to= '/InvoiceGenerator/signup'>
+              <Button className="p-0 m-0 font-normal" variant="link">
+                <span>Create an Account</span>
+              </Button>
+              </NavLink>
             </div>
           </CardContent>
           <CardFooter className="flex w-full">

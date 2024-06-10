@@ -91,7 +91,7 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
 
       <div className="flex justify-between pt-10 items-end">
           <div>
-          <div className="pt-10">
+          <div>
             <h1 className="text-base font-semibold">
               {invoice?.invoice_number}
             </h1>
