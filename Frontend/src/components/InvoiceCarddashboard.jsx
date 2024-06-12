@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
 import { Button } from "./ui/button";
 import { BiLogoBlogger } from "react-icons/bi";
 import { FaRegEdit } from "react-icons/fa";
@@ -18,13 +18,22 @@ import {
   PopoverTrigger,
 } from "@radix-ui/react-popover";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "./Spinner";
 
 import toast from "react-hot-toast";
 
 const InvoiceCarddashboard = ({ invoice, onDelete }) => {
+  const [loading, setLoading] = useState(false);
+  const [downloadUrl, setDownloadUrl] = useState("");
   const accessToken = localStorage.getItem("accessToken");
   //console.log("accessToken", accessToken);
 
+  useEffect(() => {
+    if (downloadUrl) {
+      window.open(downloadUrl);
+      setDownloadUrl(null); // Reset to null to avoid repeated triggers
+    }
+  }, [downloadUrl]);
   const headers = {
     Authorization: `Bearer ${accessToken}`,
     "Content-Type": "application/json",
@@ -35,13 +44,13 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
     try {
       navigate(`/InvoiceGenerator/editinvoice/${id}`);
     } catch (error) {
-      console.error("Error fetching invoice:", error);
+      toast.error("Error fetching invoice:", error);
     }
   };
 
   const handleDeleteInvoice = async (invoice) => {
     try {
-      console.log("invoice id for delete:", invoice.id);
+      //console.log("invoice id for delete:", invoice.id);
       await callAPI(
         "DELETE",
         `/api/deleteinvoice/${invoice.id}`,
@@ -49,8 +58,32 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
         headers
       );
       toast.success("Invoice deleted");
+      
+      console.log("url of invoice: ", downloadUrl);
     } catch (error) {
       toast.error("Error deleting invoice:", error);
+    }
+  };
+
+  const downloadInvoice = async (invoice) => {
+    setLoading(true);
+    try {
+      console.log("invoice id for download:", invoice.id);
+      const response = await callAPI(
+        "GET",
+        `/api/generateinvoice/${invoice.id}`,
+        null,
+        headers
+      );
+      setDownloadUrl(response?.data?.url);
+      console.log("url of invoice: ", downloadUrl);
+      toast.success("Invoice Generated Successfully");
+      
+    } catch (error) {
+      toast.error("Error deleting invoice:", error);
+    }finally{
+      setLoading(false);
+      
     }
   };
 
@@ -124,9 +157,10 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
         <Button
           variant="outline"
           className="w-1/2 border-none gap-1 items-center"
+          onClick={() => downloadInvoice(invoice)}
         >
-          <AiOutlineCloudDownload />
-          Download
+          
+          {loading ? <Spinner/> : <div className="flex gap-1 items-center"><span><AiOutlineCloudDownload /></span><span>Download</span></div>}
         </Button>
       </div>
     </div>

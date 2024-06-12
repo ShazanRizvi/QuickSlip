@@ -38,6 +38,7 @@ model invoice{
   total         Float
   discount      Float?
   tax_rate       Float?
+  download_url  String?
   created_At     DateTime? @default(now())
   updated_At     DateTime? @updatedAt
 

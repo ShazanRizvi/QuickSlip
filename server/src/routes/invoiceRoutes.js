@@ -6,6 +6,7 @@ const authenticateToken = require('../middlewares/authenticatejwt');
 
 
 router.post('/createinvoice',authenticateToken, invoiceController.postInvoice);
+router.get('/generateinvoice/:id',authenticateToken, invoiceController.generateInvoice);
 router.put('/updateinvoice/:id', authenticateToken, invoiceController.updateInvoice);
 router.get('/getinvoices',authenticateToken, invoiceController.getInvoices);
 router.get('/:id',authenticateToken, invoiceController.getInvoicebyId);

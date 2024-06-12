@@ -40,7 +40,7 @@ const InvoicePreview = ({ previewData }) => {
     invoice_date: formatToISO8601(previewData.dateIssued),
     due_date: formatToISO8601(previewData.dueDate),
     sub_total: previewData.subtotal,
-    tax_rate: previewData.taxRate,
+    tax_rate: parseFloat(previewData.taxRate),
     total: previewData.total,
     notes: previewData.notes,
   };

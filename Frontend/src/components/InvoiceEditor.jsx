@@ -428,6 +428,7 @@ const InvoiceEditor = ({ onUpdate }) => {
                   TaxRate
                 </Label>
                 <Field
+                  type="number"
                   name="taxRate"
                   className="w-3/4 dark:text-white"
                   onChange={handleChange}

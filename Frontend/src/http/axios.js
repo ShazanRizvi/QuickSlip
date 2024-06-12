@@ -18,7 +18,7 @@ const callAPI = async (method, url, data, headers={}) => {
    
 
     const response = await axios(options);
-    console.log("response data from axios call",response.data)
+    //console.log("response data from axios call",response.data)
     if(response?.data?.message){
       toast.success(response?.data?.message)
     }
