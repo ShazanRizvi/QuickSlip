@@ -12,12 +12,13 @@ import { RxCross2 } from "react-icons/rx";
 import { TbEyeDotted } from "react-icons/tb";
 import { HiMiniPlus } from "react-icons/hi2";
 import { useParams } from "react-router-dom";
+import { FiPlusSquare } from "react-icons/fi";
 import callAPI from "../http/axios";
 import SessionContext from "../context/session";
 
 const InvoiceEditor = ({ onUpdate }) => {
   const { id } = useParams();
-  const accessToken=localStorage.getItem('accessToken');
+  const accessToken = localStorage.getItem("accessToken");
   //Helpers
   const locale = "en-US";
   const options = {
@@ -41,8 +42,6 @@ const InvoiceEditor = ({ onUpdate }) => {
   const today = new Date();
   const thirtyDaysLater = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
 
-
-
   const [initialValues, setInitialValues] = useState({
     invoiceNumber: "",
     companyName: "",
@@ -62,41 +61,40 @@ const InvoiceEditor = ({ onUpdate }) => {
     "Content-Type": "application/json",
   };
 
-  
   useEffect(() => {
     if (id) {
       setisEditing(true);
-      callAPI('GET',`/api/${id}`,null, headers).then(data => {
-        setInitialValues({
-          invoiceNumber: data.invoice_number,
-          companyName: data.company_name,
-          companyAddress: data.company_address,
-          billTo: data.bill_to,
-          dateIssued: data.invoice_date,
-          dueDate: data.due_date,
-          items: data.items,
-          subtotal: data.sub_total,
-          taxRate: data.tax_rate,
-          discount: data.discount,
-          total: data.total,
+      callAPI("GET", `/api/${id}`, null, headers)
+        .then((data) => {
+          setInitialValues({
+            invoiceNumber: data.invoice_number,
+            companyName: data.company_name,
+            companyAddress: data.company_address,
+            billTo: data.bill_to,
+            dateIssued: new Date(data.invoice_date).toLocaleDateString(locale, options),
+            dueDate: new Date(data.due_date).toLocaleDateString(locale, options),
+            items: data.items,
+            subtotal: data.sub_total,
+            taxRate: data.tax_rate,
+            discount: data.discount,
+            notes: data.notes,
+            total: data.total,
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching invoice:", error);
         });
-      }).catch(error => {
-        console.error('Error fetching invoice:', error);
-      });
     }
   }, [id]);
-
-
-  
 
   return (
     <Formik
       validationSchema={invoiceSchema}
       initialValues={initialValues}
       enableReinitialize={true}
-
       onSubmit={(values) => {
-        console.log(values);
+        console.log("Values from invoice editor:", values);
+        console.log("Initial Values", initialValues);
       }}
       onChange={(values) => {
         onUpdate(values);
@@ -384,14 +382,14 @@ const InvoiceEditor = ({ onUpdate }) => {
                 </table>
                 <div className="mt-1">
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     type="button"
-                    className="mt-4 p-2"
+                    className="w-full mt-4 p-2 gap-2"
                     onClick={() =>
                       push({ item: "", rate: 0, quantity: 0, amount: 0 })
                     }
                   >
-                    <HiMiniPlus size={20} />
+                    <FiPlusSquare size={20} />
                     Add Item
                   </Button>
                 </div>
@@ -400,7 +398,7 @@ const InvoiceEditor = ({ onUpdate }) => {
           </FieldArray>
           <Separator />
           {/* div 4 */}
-          <div className="flex gap-2 justify-between mt-2 mb-2">
+          <div className="flex gap-8 justify-between mt-2 mb-2">
             <div className="w-1/2">
               <Label htmlFor="notes">Notes</Label>
               <Field
@@ -411,41 +409,47 @@ const InvoiceEditor = ({ onUpdate }) => {
               />
             </div>
             <div className="w-1/2">
-              <div className="mt-2 mb-2 gap-2 flex items-center justify-between">
-                <Label className="text-black" htmlFor="subtotal">
-                  Subtotal
-                </Label>
-                <Field
-                  name="subtotal"
-                  className="text-md w-3/4 items-end dark:text-white"
-                  component={FormikInput}
-                  readOnly
-                />
-              </div>
-
-              <div className="mt-2 mb-2 gap-2 flex items-center justify-between">
-                <Label className="text-black" htmlFor="taxRate">
-                  TaxRate
-                </Label>
-                <Field
-                  type="number"
-                  name="taxRate"
-                  className="w-3/4 dark:text-white"
-                  onChange={handleChange}
-                  component={FormikInput}
-                />
-              </div>
-
-              <div className="mt-2 mb-2 gap-2 flex items-center justify-between">
-                <Label className="text-blue-700" htmlFor="total">
-                  Total
-                </Label>
-                <Field
-                  name="total"
-                  className="text-2xl font-bold text-blue-600 w-3/4 items-end"
-                  component={FormikInput}
-                  readOnly
-                />
+              <div className="mt-2 mb-2 gap-2 grid grid-cols-2 items-center justify-between">
+                <div>
+                  <Label className="text-black" htmlFor="subtotal">
+                    Subtotal
+                  </Label>
+                </div>
+                <div>
+                  <Field
+                    name="subtotal"
+                    className="text-md w-3/4 items-end dark:text-white"
+                    component={FormikInput}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  <Label className="text-black" htmlFor="taxRate">
+                    TaxRate
+                  </Label>
+                </div>
+                <div>
+                  <Field
+                    type="number"
+                    name="taxRate"
+                    className="w-3/4 dark:text-white"
+                    onChange={handleChange}
+                    component={FormikInput}
+                  />
+                </div>
+                <div>
+                  <Label className="text-blue-700" htmlFor="total">
+                    Total
+                  </Label>
+                </div>
+                <div>
+                  <Field
+                    name="total"
+                    className="text-2xl font-bold text-blue-600 w-3/4 items-end"
+                    component={FormikInput}
+                    readOnly
+                  />
+                </div>
               </div>
             </div>
           </div>

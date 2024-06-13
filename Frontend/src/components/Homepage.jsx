@@ -13,6 +13,9 @@ const Homepage = () => {
   };
   return (
     <div className="flex gap-4 justify-center mx-6">
+    <div className="w-1/2 overflow-y-auto h-screen">
+        <InvoiceEditor onUpdate={handleUpdate} />
+      </div>
       <div className="w-1/2 overflow-y-auto h-screen">
         {!previewData ? (
           <div className="flex h-screen items-center justify-center">
@@ -24,9 +27,7 @@ const Homepage = () => {
           <InvoicePreview previewData = {previewData}/>
         )}
       </div>
-      <div className="w-1/2 overflow-y-auto h-screen">
-        <InvoiceEditor onUpdate={handleUpdate} />
-      </div>
+      
     </div>
   );
 };

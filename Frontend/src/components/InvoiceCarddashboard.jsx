@@ -19,7 +19,7 @@ import {
 } from "@radix-ui/react-popover";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "./Spinner";
-
+ 
 import toast from "react-hot-toast";
 
 const InvoiceCarddashboard = ({ invoice, onDelete }) => {
@@ -58,8 +58,7 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
         headers
       );
       toast.success("Invoice deleted");
-      
-      console.log("url of invoice: ", downloadUrl);
+      window.location.reload();
     } catch (error) {
       toast.error("Error deleting invoice:", error);
     }
@@ -90,7 +89,7 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
   return (
     <div className="p-5 border border-slate-100 dark:bg-[#1f2936] dark:border-none rounded-lg">
       <div className="flex justify-between">
-        <BiLogoBlogger size={40} color="#2563eb" />
+        <BiLogoBlogger size={30} color="#2563eb" />
         <TooltipProvider>
           <Tooltip>
             <div className="flex items-center">
@@ -98,10 +97,13 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
                 <TooltipTrigger>Business Invoice</TooltipTrigger>
               </div> */}
               <div>
+         
+          </div>
+              <div>
                 <Popover>
                   <PopoverTrigger>
                     {" "}
-                    <BsThreeDotsVertical size={20} className="ml-2" />
+                    <BsThreeDotsVertical size={16} className="ml-2" />
                   </PopoverTrigger>
                   <PopoverContent className="shadow dark:shadow-sm dark:shadow-gray-700 rounded-lg">
                     <Button
@@ -125,12 +127,12 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
       <div className="flex justify-between pt-10 items-end">
           <div>
           <div>
-            <h1 className="text-base font-semibold">
+            <h1 className="text-md font-semibold">
               {invoice?.invoice_number}
             </h1>
           </div>
           <div className="gap-1">
-            <p className="text-base font-normal text-slate-400">
+            <p className="text-sm font-normal text-slate-400">
               {invoice?.company_name}
             </p>
           </div>
@@ -138,7 +140,7 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
           <div>
           <TooltipProvider>
             <Tooltip>
-              <div className="flex items-center  p-1 rounded-full font-semibold text-sm text-green-900 dark:text-green-400 bg-green-200 dark:bg-green-900 border border-green-600 px-4">
+              <div className="flex items-center  p-1 rounded-full font-semibold text-xs text-green-700 dark:text-green-400  border bg-green-200 dark:bg-green-900 border-green-600 px-2">
                 <TooltipTrigger><span>₹</span><span>{invoice?.total}</span></TooltipTrigger>
               </div>
             </Tooltip>
@@ -150,6 +152,7 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
         <Button
           className="w-1/2 gap-1 items-center"
           onClick={() => navigateToInvoiceEditor(invoice.id)}
+          size="sm"
         >
           <FaRegEdit />
           Edit
@@ -158,6 +161,7 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
           variant="outline"
           className="w-1/2 border-none gap-1 items-center"
           onClick={() => downloadInvoice(invoice)}
+          size="sm"
         >
           
           {loading ? <Spinner/> : <div className="flex gap-1 items-center"><span><AiOutlineCloudDownload /></span><span>Download</span></div>}
