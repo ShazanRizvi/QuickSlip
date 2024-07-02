@@ -8,8 +8,7 @@ const Input = React.forwardRef(({ className, type, ...props }, ref) => {
   const handleTogglePassword = () => {
     setShowPassword((prevState) => !prevState);
   };
-  const inputType = type === "password" && showPassword ? "text" :
-                    type === "number" ? "number" : type;
+  const inputType = type === "password" && showPassword ? "text" : type === "number" ? "number" : type;
   return (
     (<div className="relative">
       <input

@@ -45,7 +45,7 @@ export default function Auth() {
         <Card className="w-[500px]">
           <CardHeader className="gap-2">
             <CardTitle className="flex gap-1">
-              <PiInvoice size={40} />
+              {/* <PiInvoice size={40} /> */}
               QuickSlip
             </CardTitle>
             <CardDescription>
@@ -99,8 +99,16 @@ export default function Auth() {
               variant="default"
               disabled={loading}
             >
-              {loading ? <span>Loading</span> : <span>Sign Up</span>}
-              <IoMdReturnLeft size={12} />
+              {loading ? (
+                <Spinner />
+              ) : (
+                <div className="flex w-full justify-between">
+                  <div>Sign Up</div>
+                  <div className="flex items-center">
+                    <IoMdReturnLeft size={14} />
+                  </div>
+                </div>
+              )}
             </Button>
           </CardFooter>
         </Card>

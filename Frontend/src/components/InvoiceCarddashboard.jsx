@@ -89,10 +89,13 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
   return (
     <div className="p-5 border border-slate-100 dark:bg-[#1f2936] dark:border-none rounded-lg">
       <div className="flex justify-between">
+        <div className="dark:bg-blue-900/50 bg-blue-200/50 p-3 rounded-lg">
         <BiLogoBlogger size={30} color="#2563eb" />
+        </div>
+        
         <TooltipProvider>
           <Tooltip>
-            <div className="flex items-center">
+            <div className="flex items-start">
               {/* <div className=" flex p-2 rounded-full font-semibold text-sm text-blue-700 dark:text-blue-400 bg-blue-100 dark:bg-blue-950 border border-blue-600 px-4 items-center">
                 <TooltipTrigger>Business Invoice</TooltipTrigger>
               </div> */}
@@ -127,7 +130,7 @@ const InvoiceCarddashboard = ({ invoice, onDelete }) => {
       <div className="flex justify-between pt-10 items-end">
           <div>
           <div>
-            <h1 className="text-md font-semibold">
+            <h1 className="text-base font-semibold">
               {invoice?.invoice_number}
             </h1>
           </div>

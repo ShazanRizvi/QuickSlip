@@ -32,7 +32,7 @@ const Navbar = () => {
             <div>
               <NavLink to={accessToken?"/InvoiceGenerator/dashboard":"/InvoiceGenerator/publichomepage"}>
                 <MenubarTrigger className="font-bold gap-1 items-center text-xl">
-                  <PiInvoice size={24} />
+                  {/* <PiInvoice size={24} /> */}
                   QuickSlip
                 </MenubarTrigger>
               </NavLink>

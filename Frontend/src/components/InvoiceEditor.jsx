@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 import { FiPlusSquare } from "react-icons/fi";
 import callAPI from "../http/axios";
 import SessionContext from "../context/session";
+import Loader from "./Loader";
 
 const InvoiceEditor = ({ onUpdate }) => {
   const { id } = useParams();
@@ -56,6 +57,7 @@ const InvoiceEditor = ({ onUpdate }) => {
     total: 0,
   });
   const [isEditing, setisEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const headers = {
     Authorization: `Bearer ${accessToken}`,
     "Content-Type": "application/json",
@@ -64,6 +66,7 @@ const InvoiceEditor = ({ onUpdate }) => {
   useEffect(() => {
     if (id) {
       setisEditing(true);
+      setIsLoading(true);
       callAPI("GET", `/api/${id}`, null, headers)
         .then((data) => {
           setInitialValues({
@@ -80,12 +83,17 @@ const InvoiceEditor = ({ onUpdate }) => {
             notes: data.notes,
             total: data.total,
           });
+          setIsLoading(false)
         })
         .catch((error) => {
           console.error("Error fetching invoice:", error);
+          setIsLoading(false)
         });
     }
   }, [id]);
+  if (isLoading) {
+    return <Loader/>
+  }
 
   return (
     <Formik

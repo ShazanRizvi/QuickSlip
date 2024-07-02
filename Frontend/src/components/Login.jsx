@@ -11,49 +11,45 @@ import {
 } from "@/components/ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { Spinner } from "./Spinner";
 
 import { IoMdReturnLeft } from "react-icons/io";
 import { PiInvoice } from "react-icons/pi";
 import toast from "react-hot-toast";
 import SessionContext from "../context/session";
-import {useNavigate, NavLink} from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 
 export default function Login() {
-     const {login} = useContext(SessionContext);
-     const navigate = useNavigate();
+  const { login } = useContext(SessionContext);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await login({email, password});
-    
+    await login({ email, password });
+
     const accessToken = localStorage.getItem("accessToken");
     //console.log("accessToken", accessToken);
     setLoading(false);
-    if(accessToken){
-     navigate('/InvoiceGenerator/dashboard');
+    if (accessToken) {
+      navigate("/InvoiceGenerator/dashboard");
     }
-    
-    
-   
-
   };
 
   return (
     <div className="flex h-screen justify-center items-center ">
       <form onSubmit={handleLogin}>
         <Card className="w-[500px]">
-          <CardHeader className='gap-2'>
+          <CardHeader className="gap-2">
             <CardTitle className="flex gap-1">
-              <PiInvoice size={40} />
+              {/* <PiInvoice size={40} /> */}
               QuickSlip
             </CardTitle>
             <CardDescription>
-            Optimized Invoicing for Maximum Productivity
+              Optimized Invoicing for Maximum Productivity
             </CardDescription>
           </CardHeader>
 
@@ -90,21 +86,29 @@ export default function Login() {
             </div>
             <div className="flex items-center gap-1 mt-1 mb-0 ">
               <p className="text-sm font-normal">New to QuickSlip?</p>
-              <NavLink to= '/InvoiceGenerator/signup'>
-              <Button className="p-0 m-0 font-normal" variant="link">
-                <span>Create an Account</span>
-              </Button>
+              <NavLink to="/InvoiceGenerator/signup">
+                <Button className="p-0 m-0 font-normal" variant="link">
+                  <span>Create an Account</span>
+                </Button>
               </NavLink>
             </div>
           </CardContent>
           <CardFooter className="flex w-full">
             <Button
-              className="w-full justify-between h-10"
+              className="w-full h-10"
               variant="default"
               disabled={loading}
             >
-              {loading ? <span>Loading</span> : <span>Login</span>}
-              <IoMdReturnLeft size={12} />
+              {loading ? (
+                <Spinner />
+              ) : (
+                <div className="flex w-full justify-between">
+                  <div>Login</div>
+                  <div className="flex items-center">
+                    <IoMdReturnLeft size={14} />
+                  </div>
+                </div>
+              )}
             </Button>
           </CardFooter>
         </Card>

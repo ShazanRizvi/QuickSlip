@@ -16,10 +16,12 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import DashboardHomepage from "./DashboardHomepage";
+import { Input } from "./ui/input";
+import Loader from "./Loader";
 
 const Dashboard = () => {
   const [currentpage, setCurrentPage] = useState(1);
-  const [invoicesPerPage, setInvoicesPerPage] = useState(9); // Number of invoices per page
+  const [invoicesPerPage, setInvoicesPerPage] = useState(6); // Number of invoices per page
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
   const accessToken = localStorage.getItem("accessToken");
@@ -61,29 +63,38 @@ const Dashboard = () => {
 
   return (
     <div>
-      {invoices.length === 0 ? (
+      {loading ? (
         <div className="pt-4">
-        <DashboardHomepage />
+          <Loader />
+        </div>
+      ):invoices.length === 0 ? (
+        <div className="pt-4">
+          <DashboardHomepage />
         </div>
       ) : (
         <div className="pt-4 flex h-screen dark:text-white overflow-hidden">
           <SideBardashboard />
-          <div className="p-5  justify-between  w-[1200px]">
-            <div>
-              <div>
-                <h1 className="text-4xl font-bold"> Your Invoices</h1>
+          <div className="p-5 flex justify-center w-screen">
+            <div className="w-3/4">
+              <div className="flex justify-between">
+                <h1 className="text-4xl font-bold">Your Invoices</h1>
+               
+                <Input type='text' className='w-full' placeholder='Search invoices'/>
               </div>
               {/* This is card grid */}
-              <div className="pt-10 grid grid-cols-3 gap-5 place-content-center justify-center">
-                {loading ? (
-                  <LoadingSkeleton />
-                ) : (
-                  currentInvoices?.map((invoice) => {
-                    return <InvoiceCarddashboard invoice={invoice} />;
-                  })
-                )}
-              </div>
-              <div className=" p-4 m-0 z-10 fixed bottom-0 w-[1200px]">
+              
+                <div className="pt-10 grid grid-cols-3 gap-5 place-content-center justify-center w-full">
+                  {loading ? (
+                    <LoadingSkeleton />
+                  ) : (
+                    currentInvoices?.map((invoice) => {
+                      return <InvoiceCarddashboard invoice={invoice} />;
+                    })
+                  )}
+                </div>
+              
+
+              <div className=" p-0 m-0 z-10 fixed bottom-0 w-[1100px]">
                 {totalPages > 1 && (
                   <Pagination>
                     <PaginationContent>
