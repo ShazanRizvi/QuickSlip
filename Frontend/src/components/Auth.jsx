@@ -17,6 +17,7 @@ import { PiInvoice } from "react-icons/pi";
 import toast from "react-hot-toast";
 import SessionContext from "../context/session";
 import { useNavigate, NavLink } from "react-router-dom";
+import {Spinner} from "./Spinner";
 
 export default function Auth() {
   const { signUp } = useContext(SessionContext);
